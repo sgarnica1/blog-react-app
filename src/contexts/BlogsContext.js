@@ -9,11 +9,20 @@ function useBlogs() {
 
 function BlogsProvider({ children }) {
   const apiUrl = "http://localhost:8000/blogs";
-  const { data: blogs, setData: setBlogs, loading, error } = useJsonServer(apiUrl);
-  
+  const { data: blogs, loading, error } = useJsonServer(apiUrl);
+
+  function addBlog(endpoint, blog, callback) {
+    fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(blog),
+    }).then(() => {
+      callback();
+    });
+  }
 
   return (
-    <BlogsContext.Provider value={{ blogs, setBlogs, loading, error }}>
+    <BlogsContext.Provider value={{ blogs, loading, error, addBlog }}>
       {blogs && children}
     </BlogsContext.Provider>
   );

@@ -1,13 +1,14 @@
 import React from "react";
 import { HomeStyled } from "./styled/Home.styled";
 import { BlogList } from "./BlogList";
-import { useBlogs } from "../contexts/BlogsContext";
+import { useJsonServer } from "../hooks/useJsonServer";
 import { BlogCardPreview } from "./BlogCardPreview";
 import { BlogCardPreviewLoading } from "./BlogCardPreviewLoading";
 import { ErrorLoading } from "./ErrorLoading";
 
-function Home({ children }) {
-  const { blogs, loading, error } = useBlogs();
+function Home() {
+  const apiUrl = "http://localhost:8000/blogs";
+  const { data: blogs, loading, error } = useJsonServer(apiUrl);
 
   return (
     <HomeStyled>
